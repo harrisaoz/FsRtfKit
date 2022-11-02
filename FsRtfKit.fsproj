@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <UseWindowsForms>true</UseWindowsForms>
+    <PackageId>FsRtfKit</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Anthony Harris</Authors>
+    <RepositoryUrl>https://github.com/harrisaoz/FsRtfKit</RepositoryUrl>
+    <RootNamespace>FsRtfKit</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Rtf2PlainText.fs" />
+  </ItemGroup>
+</Project>
