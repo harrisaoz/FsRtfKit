@@ -19,14 +19,18 @@ all the dependencies being unsupported in the SQL Server CLR.
 
 # Deployment to MS SQL Server CLR
 
-In order to create an assembly in Sql Server for the built DLL, the DLL dependencies must be loaded as assemblies.
+In order to create an assembly in Sql Server for a derivative library, the following DLL dependencies must be loaded as
+assemblies.
 
-The following DLLs are required:
+.Net Framework libraries:
 
 - System.Windows.Forms
 - System.Drawing
 - System.Runtime.Serialization.Formatters.Soap
+
+Libraries produced by this project:
 - FSharp.Core
+- FsRtfKit
 
 Simply copy these from the Microsoft.NET references folder (SYSTEM_DRIVE\Windows\Microsoft.NET\Framework[64]\<version>)
 and the bin\Release\net48 folder (FSharp.Core.dll and FsRtfKit.dll) to a single folder (referred to below as
@@ -35,8 +39,17 @@ and the bin\Release\net48 folder (FSharp.Core.dll and FsRtfKit.dll) to a single 
 ```tsql
 -- noinspection SqlNoDataSourceInspectionForFile
 create assembly FsRtfKit from '<dll-folder>/FsRtfKit.dll' with permission_set = unsafe;
+```
 
-create function [schema].rtf2Text(@rtfText nvarchar(max))
+At this point, you can create and load an assembly that uses FsRtfKit. The following is a demonstration of the syntax,
+assuming deployment of a module ```DerivativeModule.Conversion``` with a function ```asPlainText``` to be used as an
+external function in schema [demo].
+
+```tsql
+-- noinspection SqlNoDataSourceInspectionForFile
+create assembly DerivModAssembly from '<dll-folder>/DerivativeModule.dll' with permission_set = unsafe;
+
+create function [demo].asPlainText(@rtfText nvarchar(max))
 returns nvarchar(max)
-as external name FsRtfKit.[FsRtfKit.Rtf2PlainText].rtf2Text;
+as external name DerivModAssembly.[DerivativeModule.Conversion].asPlainText;
 ```
