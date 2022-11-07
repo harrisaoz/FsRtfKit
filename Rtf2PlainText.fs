@@ -1,6 +1,6 @@
 ﻿module FsRtfKit.Rtf2PlainText
 
-let tryLoadRtf (richText: string) =
+let tryExtractPlainText (richText: string) =
     let box = new System.Windows.Forms.RichTextBox()
     try
         box.Rtf <- richText
@@ -16,7 +16,7 @@ let tryLoadRtf (richText: string) =
 /// If the extraction fails, then the original text is returned unchanged.
 /// If the extraction succeeds, then the extracted plain text is returned.
 let rtf2Text (docText: string) =
-    tryLoadRtf docText
+    tryExtractPlainText docText
     |> function
         | None -> docText
         | Some plainText -> plainText
